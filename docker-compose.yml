@@ -1,0 +1,16 @@
+version: "3"
+services:
+  webapp:
+    container_name: mysite-client
+    image: ymassamar/mysite-client
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env.development
+    volumes:
+      - '.:/app'
+      - /app/node_modules

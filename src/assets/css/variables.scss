@@ -1,0 +1,68 @@
+/* ----------colors--------- */
+
+$blue: #409EFF;
+$blue-hover: #66b1ff;
+$black: #000000;
+
+$red: #EE5F5B;
+$red2: #FE470D;
+$yellow: #FDB631;
+$orange: #E67E22;
+$orange-intense: #F15A24;
+$green: #32B796;
+$gray: #607D8B;
+$medium-gray: #90A4AE;
+$medium-light-gray: #CFD8DC;
+$light-gray: #ECEFF1;
+$dark-gray: #263238;
+
+/* ----------fonts--------- */
+
+$body-font: "Open Sans", "Helvetica", "sans-serif";
+$headers-font: "Raleway", "Helvetica", "sans-serif";
+$logo-font: "Righteous", "cursive";
+
+/* ----------utilities--------- */
+
+$hover: #F0F0F0;
+$hover-inverse: #526477;
+
+
+/* ----------transitions--------- */
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
+
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

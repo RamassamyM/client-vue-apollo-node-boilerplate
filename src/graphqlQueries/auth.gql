@@ -1,0 +1,33 @@
+mutation login($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+   jwt jwtExpiration user { _id username playedGamesNb description level}
+  }
+}
+
+mutation Signup($username: String!, $email: String!, $genres: [String], $password: String!) {
+  signup(username: $username, email: $email, genres: $genres, password: $password) {
+    jwt jwtExpiration user {_id username email genres playedGamesNb description level}
+  }
+}
+
+query ISUSERLOGGEDIN { isLoggedIn @client }
+
+query SESSION {
+  jwt @client
+  jwtExpiration @client
+  isLoggedIn @client
+}
+
+fragment userFields on User { _id username genres playedGamesNb description level avatar avatarColor }
+
+query ME { me { ...userFields } }
+
+query Me { me {_id email genres username playedGamesNb level}}
+
+mutation RefreshToken {
+  refreshToken { jwt jwtExpiration }
+}
+
+# mutation Logout {
+#   logout { confirmed }
+# }
