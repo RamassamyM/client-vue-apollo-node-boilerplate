@@ -102,19 +102,30 @@
       <v-btn icon>
         <v-icon>mdi-bell</v-icon>
       </v-btn>
-      <v-btn
-        icon
-        large
-      >
-        <v-avatar
-          size="32px"
-          item
-        >
-          <v-img
-            src="https://cdn.vuetifyjs.com/images/logos/logo.svg"
-            alt="Vuetify"
-          /></v-avatar>
-      </v-btn>
+      <v-menu offset-y right>
+        <template v-slot:activator="{ on }">
+          <v-btn icon large v-on="on">
+            <v-avatar size="32px" item>
+              <v-img :src="me.avatar" :alt="me.username" />
+            </v-avatar>
+          </v-btn>
+        </template>
+        <v-card class="mx-auto dashboard__navbar_avatar-dropdown" max-width="400" tile>
+          <v-list dense subheader>
+            <v-list-item class="mx-auto d-flex">
+              <v-icon>mdi-account</v-icon>
+              <v-subheader>{{me.username}}</v-subheader>
+            </v-list-item>
+            <v-list-item-group color="primary">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title @click="logout">Logout</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-card>
+      </v-menu>
     </v-app-bar>
     <v-content app>
       <!-- <v-container
@@ -222,45 +233,97 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      source: String,
+
+import { ME } from '@/graphqlQueries/auth.gql'
+import { logoutLocal } from '../utils/helpers'
+
+export default {
+  props: {
+    source: String,
+  },
+  data: () => ({
+    dialog: false,
+    drawer: null,
+    items: [
+      { icon: 'mdi-contacts', text: 'Contacts' },
+      { icon: 'mdi-history', text: 'Frequently contacted' },
+      { icon: 'mdi-content-copy', text: 'Duplicates' },
+      {
+        icon: 'mdi-chevron-up',
+        'icon-alt': 'mdi-chevron-down',
+        text: 'Labels',
+        model: true,
+        children: [
+          { icon: 'mdi-plus', text: 'Create label' },
+        ],
+      },
+      {
+        icon: 'mdi-chevron-up',
+        'icon-alt': 'mdi-chevron-down',
+        text: 'More',
+        model: false,
+        children: [
+          { text: 'Import' },
+          { text: 'Export' },
+          { text: 'Print' },
+          { text: 'Undo changes' },
+          { text: 'Other contacts' },
+        ],
+      },
+      { icon: 'mdi-cog', text: 'Settings' },
+      { icon: 'mdi-message', text: 'Send feedback' },
+      { icon: 'mdi-help-circle', text: 'Help' },
+      { icon: 'mdi-cellphone-link', text: 'App downloads' },
+      { icon: 'mdi-keyboard', text: 'Go to the old version' },
+    ],
+    me: {
+      username: 'User',
+      description: 'No description available',
+      avatar: 'https://cdn.vuetifyjs.com/images/logos/logo.svg',
+      avatarColor: '#e91e63',
     },
-    data: () => ({
-      dialog: false,
-      drawer: null,
-      items: [
-        { icon: 'mdi-contacts', text: 'Contacts' },
-        { icon: 'mdi-history', text: 'Frequently contacted' },
-        { icon: 'mdi-content-copy', text: 'Duplicates' },
-        {
-          icon: 'mdi-chevron-up',
-          'icon-alt': 'mdi-chevron-down',
-          text: 'Labels',
-          model: true,
-          children: [
-            { icon: 'mdi-plus', text: 'Create label' },
-          ],
-        },
-        {
-          icon: 'mdi-chevron-up',
-          'icon-alt': 'mdi-chevron-down',
-          text: 'More',
-          model: false,
-          children: [
-            { text: 'Import' },
-            { text: 'Export' },
-            { text: 'Print' },
-            { text: 'Undo changes' },
-            { text: 'Other contacts' },
-          ],
-        },
-        { icon: 'mdi-cog', text: 'Settings' },
-        { icon: 'mdi-message', text: 'Send feedback' },
-        { icon: 'mdi-help-circle', text: 'Help' },
-        { icon: 'mdi-cellphone-link', text: 'App downloads' },
-        { icon: 'mdi-keyboard', text: 'Go to the old version' },
-      ],
-    }),
-  }
+    skipQuery: false,
+  }),
+  computed: {
+    initials() {
+      return this.username[0].toUpperCase() || '--'
+    }
+  },
+  apollo: {
+    me: {
+      query: ME,
+      // Additional options here
+      fetchPolicy: 'cache-and-network',
+      skip () {
+        return this.skipQuery
+      },
+      // update(data) {
+      //   if (data && data.me) {
+      //     this.username = data.me.username
+      //     this.initials = this.username[0].toUpperCase()
+      //     this.avatar = data.me.avatar
+      //     this.avatarColor = data.me.avatarColor
+      //     return data.me
+      //   } else {
+      //     return {}
+      //   }
+      // },
+      // loadingKey: 'loadingQueriesCount',
+    },
+  },
+  methods: {
+    logout: async function () {
+      logoutLocal()
+      return
+    }
+  },
+}
 </script>
+<style lang="scss" scoped>
+
+.dashboard__navbar_avatar-dropdown {
+  min-width: 160px;
+  max-height: 500px;
+}
+
+</style>

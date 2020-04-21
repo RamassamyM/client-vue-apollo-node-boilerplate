@@ -8,7 +8,7 @@
       center-active
       show-arrows
     >
-      <v-tab >Tab 1 ({{playedGamesNb}})</v-tab>
+      <v-tab >Tab 1 ({{number}})</v-tab>
       <v-tab class="ml-0">Tab 2</v-tab>
       <v-tab >Tab 3</v-tab>
       <v-tab >Tab 4</v-tab>
@@ -35,7 +35,8 @@ export default {
   },
   name: "",
   data: () => ({
-
+    tab: null,
+    number: 3,
   }),
 
 }

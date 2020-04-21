@@ -29,10 +29,10 @@ const router = new Router({
     },
     {
       path: '/dashboard',
-      name: 'about',
+      name: 'dashboard',
       component: Dashboard,
       meta: {
-        // secure: true,
+        secure: true,
         title: 'Dashboard',
         layout: 'dashboard',
         preloading: 'true',
@@ -53,8 +53,8 @@ const router = new Router({
         component: NotFoundPage,
         meta: {
           unAuth: true,
-          title: 'Home',
-          layout: 'home',
+          title: '404',
+          layout: 'homenosidebar',
           preloading: 'true',
         },
     },

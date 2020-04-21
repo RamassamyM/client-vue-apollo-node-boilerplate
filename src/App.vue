@@ -11,13 +11,15 @@
 import PageCircularProgress from '@/components/progress/PageCircularProgress'
 import { resetSessionParams } from './utils/helpers'
 
-const default_layout = 'home'
+const default_layout = 'homenosidebar'
 
 export default {
   name: 'App',
   components: {
     PageCircularProgress,
   },
+  data: () => ({
+  }),
   mounted: function () {
     window.addEventListener('storage', this.syncLogout)
   },
@@ -26,7 +28,7 @@ export default {
       return (this.$route.meta.layout || default_layout) + '-layout'
     },
     preloading() {
-      return (this.$route.meta.preloading || true)
+      return this.$route.meta.preloading
     }
   },
   methods: {

@@ -55,7 +55,7 @@
           @click="removeError"
         ></v-text-field>
 
-        <v-select
+        <!-- <v-select
           v-model="selected"
           :items="choices"
           :error-messages="selectErrors"
@@ -67,12 +67,12 @@
           persistent-hint
           @change="$v.select.$touch()"
           @blur="$v.select.$touch()"
-        ></v-select>
+        ></v-select> -->
 
         <v-checkbox
           v-model="checkbox"
           :error-messages="checkboxErrors"
-          label="J'accepte les conditions générales d'utilisation de TheJamQuiz"
+          label="J'accepte les conditions générales d'utilisation du site"
           required
           @change="$v.checkbox.$touch()"
           @blur="$v.checkbox.$touch()"
@@ -86,7 +86,7 @@
     <v-card-text
       :class="`d-flex justify-center py-4 align-center`"
     >
-      <div>J'ai déjà un compte sur TheJamQuiz?</div>
+      <div>J'ai déjà un compte ?</div>
       <v-btn
         text
         color="primary"
@@ -121,11 +121,11 @@ export default {
         return val
       },
     },
-    select: {
-      minOneSelected () {
-        return this.selected.length > 0
-      }
-    }
+    // select: {
+    //   minOneSelected () {
+    //     return this.selected.length > 0
+    //   }
+    // }
   },
 
   data: () => ({
@@ -190,7 +190,7 @@ export default {
       this.$v.$touch()
       // console.log('Submit')
       let user = {
-        genres: this.selected,
+        // genres: this.selected,
         email: this.email,
         username: this.username,
         password: this.password
@@ -201,8 +201,8 @@ export default {
         return
       }
       this.$apollo.mutate({
-        mutation: gql`mutation Signup($username: String!, $email: String!, $genres: [String], $password: String!) {
-          signup(username: $username, email: $email, genres: $genres, password: $password) {
+        mutation: gql`mutation Signup($username: String!, $email: String!, $password: String!) {
+          signup(username: $username, email: $email, password: $password) {
             jwt
             jwtExpiration
             user { _id }

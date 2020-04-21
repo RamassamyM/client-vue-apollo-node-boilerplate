@@ -18,7 +18,7 @@ query SESSION {
   isLoggedIn @client
 }
 
-fragment userFields on User { _id username genres playedGamesNb description level avatar avatarColor }
+fragment userFields on User { _id username description avatar avatarColor }
 
 query ME { me { ...userFields } }
 

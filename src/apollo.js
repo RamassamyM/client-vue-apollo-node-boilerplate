@@ -25,7 +25,7 @@ const defaults = localState.defaults
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData
 })
-console.log("API_URI: ", API_URI)
+// console.log("API_URI: ", API_URI)
 // configuration of apolloLink for apollo layer that fetch data to graphqlApi Server
 export const httpLink = new HttpLink({
   uri: API_URI,
