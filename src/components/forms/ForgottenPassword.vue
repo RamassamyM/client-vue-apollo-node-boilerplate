@@ -3,7 +3,7 @@
     <v-card-title
       :class="`d-flex justify-space-between headline`"
     >
-      <span>Se connecter</span>
+      <span>Forgot your password ?</span>
       <v-btn
         icon
         large
@@ -16,49 +16,30 @@
       <div v-if="error" class="error">
         {{ error }}
       </div>
-
       <form>
         <v-text-field
           v-model="email"
           :error-messages="emailErrors"
-          label="Email"
+          label="We will send you an email with a link to create a new password :"
+          placeholder="Email"
           prepend-icon="mdi-email"
           required
           @input="$v.email.$touch()"
           @blur="$v.email.$touch()"
           @click="removeError"
         ></v-text-field>
-
-        <v-text-field
-          v-model="password"
-          :type="showpassword ? 'text' : 'password'"
-          :error-messages="passwordErrors"
-          label="Mot de passe"
-          prepend-icon="mdi-lock"
-          :append-icon="showpassword ? 'mdi-eye' : 'mdi-eye-off'"
-          @click:append="showpassword = !showpassword"
-          @click="removeError"
-          required
-          @input="$v.password.$touch()"
-          @blur="$v.password.$touch()"
-        ></v-text-field>
-
         <div class="d-flex justify-space-around">
-          <v-btn large color="error" @click.prevent="submit">Se connecter</v-btn>
-          <!-- <v-btn large color="error" @click.prevent="submit" :disabled="$v.$invalid">Se connecter</v-btn> -->
+          <v-btn large color="error" @click.prevent="submit">Get a link</v-btn>
         </div>
       </form>
     </v-card-text>
     <v-card-text class="d-flex flex-column">
       <div class="d-flex justify-center pt-4 align-center">
-        <div>Nouveau sur TheJamQuiz? Créer un compte </div>
-        <v-btn text blue color="primary" class="ml-1" @click="$emit('closeAndSignUp')">
-          S'inscrire
+        <div>I know my password ? </div>
+        <v-btn text blue color="primary" class="ml-1" @click="$emit('closeForgottenPasswordAndOpenLogin')">
+          Login
         </v-btn>
       </div>
-      <v-btn small text primary color="primary" @click="$emit('closeLoginAndOpenForgottenPassword')">
-        Mot de passe oublié
-      </v-btn>
     </v-card-text>
   </v-card>
 </template>
@@ -68,17 +49,15 @@ import { validationMixin } from 'vuelidate'
 import { required, email } from 'vuelidate/lib/validators'
 import { SESSION } from '@/graphqlQueries/auth.gql'
 import gql from 'graphql-tag'
+import EventBus from '@/event-bus'
 
 export default {
   mixins: [validationMixin],
   validations: {
     email: { required, email },
-    password: { required },
   },
   data: () => ({
     email: '',
-    password: '',
-    showpassword: false,
     submitted: false,
     error: false,
     form: {
@@ -91,12 +70,6 @@ export default {
       if (!this.$v.email.$dirty) return errors
       !this.$v.email.email && errors.push('Must be valid e-mail')
       !this.$v.email.required && errors.push('E-mail is required')
-      return errors
-    },
-    passwordErrors () {
-      const errors = []
-      if (!this.$v.password.$dirty) return errors
-      !this.$v.password.required && errors.push('Password is required')
       return errors
     },
   },
@@ -112,15 +85,11 @@ export default {
         }
         this.$v.$touch()
         const email = this.email
-        const password = this.password
         this.$apollo.provider.defaultClient.clearStore()
         // console.log('Starting mutation...')
         this.$apollo.mutate({
-          mutation: gql`mutation Login($email: String!, $password: String!) {
-            login(email: $email, password: $password) {
-              jwt
-              jwtExpiration
-              user { _id }
+          mutation: gql`mutation SendNewPasswordLink($email: String!) {
+            sendNewPasswordLink(email: $email) {
             }
           }`,
           variables: { email, password },
@@ -134,10 +103,6 @@ export default {
             // console.log('Mutation finished !')
             this.submitted = true
             this.error = false
-            this.$root.$data.userId = response.data.login.user._id
-            window.localStorage.setItem('login', Date.now())
-            this.$router.push({name: 'dashboard'})
-            // console.log('LOGIN SUCCESS!')
           } else {
             throw response
           }

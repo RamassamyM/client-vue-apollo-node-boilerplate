@@ -7,7 +7,11 @@
     </v-dialog>
 
     <v-dialog v-model="loginDialog" max-width="500">
-      <Login @close="loginDialog = false" @closeAndSignUp="closeLoginAndOpenSignUp"/>
+      <Login @close="loginDialog = false" @closeAndSignUp="closeLoginAndOpenSignUp" @closeLoginAndOpenForgottenPassword="closeLoginAndOpenForgottenPassword"/>
+    </v-dialog>
+
+    <v-dialog v-model="forgottenPasswordDialog" max-width="500">
+      <Forgotten-Password @close="forgottenPasswordDialog = false" @closeForgottenPasswordAndOpenLogin="closeForgottenPasswordAndOpenLogin"/>
     </v-dialog>
     <v-content app>
       <!-- <v-container
@@ -30,22 +34,26 @@ import HomeNavBar from "@/partials/HomeNavBarDrawerOnlyForMobile";
 // import HomeFooter from "@/components/footers/HomeFooter";
 import Signup from '@/components/forms/Signup'
 import Login from '@/components/forms/Login'
+import ForgottenPassword from '@/components/forms/ForgottenPassword'
 
 export default {
   components: {
     Signup,
     HomeNavBar,
     Login,
+    ForgottenPassword
     // HomeFooter,
   },
   data: () => ({
     signupDialog: false,
     loginDialog: false,
+    forgottenPasswordDialog: false,
   }),
   mounted() {
     const self = this
     EventBus.$on("toggleSignup", () => { self.signupDialog = !self.signupDialog } )
     EventBus.$on("toggleLogin", () => { self.loginDialog = !self.loginDialog } )
+    EventBus.$on("toggleForgottenPassword", () => { self.forgottenPasswordDialog = !self.forgottenPasswordDialog } )
   },
   methods: {
     closeSignUpAndOpenLogin () {
@@ -56,6 +64,16 @@ export default {
     closeLoginAndOpenSignUp () {
       this.loginDialog = false
       this.signupDialog = true
+      return
+    },
+    closeForgottenPasswordAndOpenLogin() {
+      this.forgottenPasswordDialog = false
+      this.loginDialog = true
+      return
+    },
+    closeLoginAndOpenForgottenPassword() {
+      this.loginDialog = false
+      this.forgottenPasswordDialog = true
       return
     },
   },

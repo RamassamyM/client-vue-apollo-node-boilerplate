@@ -2,7 +2,11 @@
   <div>
     <v-app-bar :color="navColor" :dark="dark" elevate-on-scroll app>
       <v-app-bar-nav-icon v-if="toggleDrawerEventName" @click.stop="toggleDrawer"></v-app-bar-nav-icon>
-      <img class="mr-3" :src="require('../assets/images/' + logoName)" :height="logoHeight"/>
+      <v-toolbar-items>
+        <v-btn text tile color="transparent" to="/">
+          <img class="mr-3" :src="require('../assets/images/' + logoName)" :height="logoHeight"/>
+        </v-btn>
+      </v-toolbar-items>
       <v-toolbar-title class="headline">{{ appName }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="d-none d-md-flex">
