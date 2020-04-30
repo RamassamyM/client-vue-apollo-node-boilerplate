@@ -22,6 +22,7 @@
         <slot/>
       <!-- </v-container> -->
     </v-content>
+    <notif-bar :color="notifColor" :text="notifText" :displayNotif="displayNotif" :notifx="notifx" :notify="notify" :mode="notifMode" @close="displayNotif = false"/>
     <!-- <home-footer/> -->
 
   </v-app>
@@ -35,25 +36,41 @@ import HomeNavBar from "@/partials/HomeNavBarDrawerOnlyForMobile";
 import Signup from '@/components/forms/Signup'
 import Login from '@/components/forms/Login'
 import ForgottenPassword from '@/components/forms/ForgottenPassword'
+import notifBar from '@/components/notifications/notifBar'
 
 export default {
   components: {
     Signup,
     HomeNavBar,
     Login,
-    ForgottenPassword
+    ForgottenPassword,
+    notifBar,
     // HomeFooter,
   },
   data: () => ({
     signupDialog: false,
     loginDialog: false,
     forgottenPasswordDialog: false,
+    notifColor: 'success',
+    notifText: '',
+    displayNotif: false,
+    notifx: '',
+    notify: '',
+    notifMode: '',
   }),
   mounted() {
     const self = this
     EventBus.$on("toggleSignup", () => { self.signupDialog = !self.signupDialog } )
     EventBus.$on("toggleLogin", () => { self.loginDialog = !self.loginDialog } )
     EventBus.$on("toggleForgottenPassword", () => { self.forgottenPasswordDialog = !self.forgottenPasswordDialog } )
+    EventBus.$on("displayNotifBar", ({ color, text, x, y, mode }) => {
+      self.notifColor = color || 'success'
+      self.notifText = text || 'This is a notification!'
+      self.displayNotif = true
+      self.notifx = x || ''
+      self.notify = y || ''
+      self.notifMode = mode || ''
+    })
   },
   methods: {
     closeSignUpAndOpenLogin () {

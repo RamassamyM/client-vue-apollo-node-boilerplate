@@ -31,3 +31,9 @@ mutation RefreshToken {
 # mutation Logout {
 #   logout { confirmed }
 # }
+
+mutation sendForgotPasswordEmail($email: String!) {
+  sendForgotPasswordEmail(email: $email) {confirmed message}}
+
+mutation changePassword($password: String!, $key: String!) {
+  changePassword(password: $password, key: $key) {confirmed}}

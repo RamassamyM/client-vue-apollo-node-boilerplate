@@ -57,6 +57,7 @@ const cache = new InMemoryCache({
 const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
   if (networkError) {
     console.log(`[Network error]: ${networkError}`)
+    throw `[Network error]: ${networkError}`
   }
   if (graphQLErrors) {
     graphQLErrors.map(({ message, locations, path }) => {
@@ -108,7 +109,7 @@ const refreshSession = async () => {
 }
 
 const getJwtTokenOrRefreshPromise = async ({ request }) => {
-  if (request.operationName === 'Login' || request.operationName ===  'Signup') {
+  if (['login', 'signup', 'sendForgotPasswordEmail'].includes(request.operationName)) {
     return null
   }
   let { jwt, jwtExpiration } = await apolloClient.readQuery({query: SESSION})
