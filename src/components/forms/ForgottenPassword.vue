@@ -49,7 +49,6 @@
 <script>
 import { validationMixin } from 'vuelidate'
 import { required, email } from 'vuelidate/lib/validators'
-import { SESSION } from '@/graphqlQueries/auth.gql'
 import gql from 'graphql-tag'
 import EventBus from '@/event-bus'
 
@@ -63,6 +62,7 @@ export default {
       type: String,
       default: "forgottenPasswordForm"
     },
+    dialogName: String,
   },
   data: () => ({
     label: "We will send you an email with a link to create a new password :",
@@ -81,9 +81,6 @@ export default {
       !this.$v.email.required && errors.push('E-mail is required')
       return errors
     },
-  },
-  props: {
-    dialogName: String,
   },
   methods: {
     submit() {

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/views/Home.vue';
 import Dashboard from '@/views/Dashboard.vue';
+import NewPassword from '@/views/NewPassword.vue';
 import NotFoundPage from '@/views/NotFound.vue';
 // import Dashboard from '@/views/Dashboard.vue';
 import { isUserLoggedIn } from '@/utils/helpers'
@@ -35,6 +36,17 @@ const router = new Router({
         secure: true,
         title: 'Dashboard',
         layout: 'dashboard',
+        preloading: 'true',
+      },
+    },
+    {
+      path: '/newpassword/:key',
+      name: 'newpassword',
+      component: NewPassword,
+      meta: {
+        unAuth: true,
+        title: 'NewPassword',
+        layout: 'homenosidebar',
         preloading: 'true',
       },
     },

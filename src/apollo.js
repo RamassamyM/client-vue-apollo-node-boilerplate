@@ -109,7 +109,8 @@ const refreshSession = async () => {
 }
 
 const getJwtTokenOrRefreshPromise = async ({ request }) => {
-  if (['login', 'signup', 'sendForgotPasswordEmail'].includes(request.operationName)) {
+  console.log("request operationName: ", request.operationName)
+  if (['Login', 'Signup', 'sendForgotPasswordEmail', 'changePassword'].includes(request.operationName)) {
     return null
   }
   let { jwt, jwtExpiration } = await apolloClient.readQuery({query: SESSION})

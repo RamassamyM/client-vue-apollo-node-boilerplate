@@ -38,15 +38,11 @@ export default {
       type: String,
       default: 'vertical',
     },
-    text: {
-      type: String,
-      default: 'Hello, I\'m a snackbar'
-    },
     timeout: {
       type: Number,
       default: 6000
     },
-    notifx: { 
+    notifx: {
       type: String,
       default: ''
     },
@@ -60,7 +56,7 @@ export default {
     },
     displayNotif: {
       type: Boolean,
-      default: 'false'
+      default: false
     }
   },
 }
