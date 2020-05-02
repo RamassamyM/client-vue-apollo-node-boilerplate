@@ -23,6 +23,21 @@
   </div>
 </template>
 <script>
+
+// Install it in layout vue html :
+// <notif-bar :color="notifColor" :text="notifText" :displayNotif="displayNotif" :notifx="notifx" :notify="notify" :mode="notifMode" @close="displayNotif = false"/>
+// Add Script in mounted :
+// EventBus.$on("displayNotifBar", ({ color, text, x, y, mode }) => {
+//   self.notifColor = color || 'success'
+//   self.notifText = text || 'This is a notification!'
+//   self.displayNotif = true
+//   self.notifx = x || ''
+//   self.notify = y || ''
+//   self.notifMode = mode || ''
+// })
+// Launch it in any component :
+// EventBus.$emit('displayNotifBar', { text: message, color: 'blue', x:'right', y:'top', mode: '' })
+
 export default {
   name: "",
   props: {

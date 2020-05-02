@@ -50,7 +50,8 @@
 import { validationMixin } from 'vuelidate'
 import { required, email } from 'vuelidate/lib/validators'
 import gql from 'graphql-tag'
-import EventBus from '@/event-bus'
+// import EventBus from '@/event-bus'
+import Toast from '@/components/notifications/toast'
 
 export default {
   mixins: [validationMixin],
@@ -105,7 +106,11 @@ export default {
             this.email = ''
             this.error = false
             if (message) {
-              EventBus.$emit('displayNotifBar', { text: message, color: 'blue', x:'right', y:'top', mode: '' })
+              // EventBus.$emit('displayNotifBar', { text: message, color: 'blue', x:'right', y:'top', mode: '' })
+              Toast.fire({
+                icon: 'success',
+                title: message
+              })
             }
             this.$emit('close')
           } else {

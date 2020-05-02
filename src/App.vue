@@ -54,6 +54,7 @@ export default {
 </script>
 
 <style lang="scss">
+// @import '~@sweetalert2/theme-material-ui/material-ui.scss';
 
 body {
   color: #eff2f4;

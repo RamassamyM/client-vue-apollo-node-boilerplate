@@ -87,11 +87,10 @@ export default {
   height: 100%;
   min-height: 100vh;
   position: relative;
-  margin-top: -20px;
+  margin-top: -64px;
 }
 
 .home__banner_parallax-container {
-  // height: 100%;
   min-height: 100vh;
   width: 100%;
   background-image: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.9));

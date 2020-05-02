@@ -24,6 +24,8 @@ import HomeCallToAction from "@/components/blocks/CallToAction.vue";
 import HomeCallToActionParallax from "@/components/blocks/CallToActionParallax.vue";
 import HomeNewsletter from "@/components/blocks/Newsletter.vue";
 import Footer from "@/components/footers/Footer.vue"
+import Toast from '@/components/notifications/toast'
+import Alert from '@/components/modals/alert'
 
 export default {
   components: {
@@ -38,11 +40,19 @@ export default {
     HomeNewsletter,
     Footer
   },
-  name: "",
+  name: "Home",
   data: () => ({
-
-  })
+  }),
+  mounted() {
+    setTimeout(() => {
+      Alert.fire({icon: 'success', title: 'Welcome', text: 'Do ou like our app ?'})
+      .then((result) => {
+        Toast.fire({icon: 'info', title: 'Thank you for your feedback', position:'top-end'})
+      })
+    }, 3000)
+  }
 }
 </script>
 <style lang="scss" scoped>
+
 </style>

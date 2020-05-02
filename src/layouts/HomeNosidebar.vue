@@ -71,6 +71,8 @@ export default {
       self.notify = y || ''
       self.notifMode = mode || ''
     })
+    // To use it :
+    // EventBus.$emit('displayNotifBar', { text: message, color: 'blue', x:'right', y:'top', mode: '' })
   },
   methods: {
     closeSignUpAndOpenLogin () {
